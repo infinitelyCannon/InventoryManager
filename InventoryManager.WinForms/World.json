@@ -4,13 +4,20 @@
       "Name": "Jane Janet Doe",
       "Health": 100,
       "Score": 150,
-      "Inventory": []
+      "Inventory": [
+        "Book",
+        "Match",
+        "Lantern",
+        "Stick"
+      ]
     },
     {
       "Name": "John Smith",
       "Health": 80,
       "Score": 25,
-      "Inventory": []
+      "Inventory": [
+        "Book"
+      ]
     },
     {
       "Name": "Ima Knight",
@@ -27,13 +34,20 @@
   ],
   "Items": [
     {
-      "Name": "Book"
+      "Name": "Book",
+      "Weight": 10
     },
     {
-      "Name": "Lantern"
+      "Name": "Lantern",
+      "Weight": 20
     },
     {
-      "Name": "Match"
+      "Name": "Match",
+      "Weight": 2
+    },
+    {
+      "Name": "Stick",
+      "Weight": 0
     }
   ]
 }

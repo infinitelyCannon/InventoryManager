@@ -7,5 +7,7 @@ namespace InventoryManager.Data
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Name { get; set; }
+
+        public int Weight { get; set; }
     }
 }

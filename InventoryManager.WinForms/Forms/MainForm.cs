@@ -63,6 +63,8 @@ namespace InventoryManager.WinForms.Forms
         private void PlayersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             deletePlayerButton.Enabled = playersListBox.SelectedItem != null;
+            addInventoryButton.Enabled = playerInventoryListBox.Items.Count < ViewModel.Items.Count;
+            deleteInventoryButton.Enabled = playerInventoryListBox.SelectedItem != null;
         }
 
         private void DeletePlayerButton_Click(object sender, EventArgs e)
@@ -122,6 +124,35 @@ namespace InventoryManager.WinForms.Forms
                 ViewModel.Items.Remove((Item)itemsListBox.SelectedItem);
                 itemsListBox.SelectedItem = ViewModel.Items.FirstOrDefault();
             }
+        }
+
+        private void AddInventoryButton_Click(object sender, EventArgs e)
+        {
+            using (AddInventoryItemForm inventoryItemForm = new AddInventoryItemForm(ViewModel.Items.Where(i => PlayerItemFilter(i)).ToList()))
+            {
+                if(inventoryItemForm.ShowDialog() == DialogResult.OK)
+                {
+                    ViewModel.Players[playersListBox.SelectedIndex].AddItemToInventory(ViewModel.Items.First(i => i.Name == inventoryItemForm.ItemName));
+                    addInventoryButton.Enabled = playerInventoryListBox.Items.Count < ViewModel.Items.Count;
+                }
+            }
+        }
+
+        private void DeleteInventoryButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Delete this item?", AssemblyTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ViewModel.Players[playersListBox.SelectedIndex].RemoveItemFromInventory((Item)playerInventoryListBox.SelectedItem);
+                playerInventoryListBox.SelectedItem = ViewModel.Players[playersListBox.SelectedIndex].Inventory.FirstOrDefault();
+                addInventoryButton.Enabled = playerInventoryListBox.Items.Count < ViewModel.Items.Count;
+                deleteInventoryButton.Enabled = playerInventoryListBox.SelectedItem != null;
+            }
+        }
+
+        private bool PlayerItemFilter(Item item)
+        {
+            Player player = (Player) playersListBox.SelectedItem;
+            return !player.Inventory.Contains(item);
         }
     }
 }
